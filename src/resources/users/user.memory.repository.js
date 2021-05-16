@@ -25,6 +25,12 @@ const update = async (id, user) => {
 
 const remove = async (id) => {
   DB.users = DB.users.filter((el) => el.id !== id);
+  DB.tasks = DB.tasks.map((el) => {
+    if (el.userId === id) {
+      return { ...el, userId: null };
+    }
+    return el;
+  });
 };
 
 module.exports = { getAll, getById, create, update, remove };
