@@ -25,6 +25,7 @@ const update = async (id, board) => {
 
 const remove = async (id) => {
   DB.boards = DB.boards.filter((el) => el.id !== id);
+  DB.tasks = DB.tasks.filter((el) => el.boardId !== id);
 };
 
 module.exports = { getAll, getById, create, update, remove };
