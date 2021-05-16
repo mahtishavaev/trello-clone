@@ -1,17 +1,13 @@
-const Column = require('./columns/column.model');
+const Board = require('./boards/board.model');
 const User = require('./users/user.model');
 
 const DB = {
   users: [],
-  columns: [],
+  boards: [],
 };
 
 DB.users.push(new User(), new User(), new User());
 
-DB.columns.push(
-  new Column({ title: 'To Do', order: 1 }),
-  new Column({ title: 'Doing', order: 2 }),
-  new Column({ title: 'Done', order: 3 })
-);
+DB.boards.push(new Board({ title: 'Board 1' }));
 
 module.exports = DB;
