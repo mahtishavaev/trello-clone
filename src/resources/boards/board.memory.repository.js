@@ -15,8 +15,8 @@ const update = async (id, board) => {
   let updatedBoard;
   DB.boards = DB.boards.map((el) => {
     if (el.id === id) {
-      updatedBoard = { id, ...board };
-      return board;
+      updatedBoard = { ...board, id };
+      return updatedBoard;
     }
     return el;
   });
@@ -25,7 +25,6 @@ const update = async (id, board) => {
 
 const remove = async (id) => {
   DB.boards = DB.boards.filter((el) => el.id !== id);
-  DB.tasks = DB.tasks.filter((el) => el.boardId !== id);
 };
 
 module.exports = { getAll, getById, create, update, remove };

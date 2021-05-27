@@ -27,7 +27,7 @@ router.route('/:id').put(async (req, res) => {
 router.route('/:id').delete(async (req, res) => {
   const { id } = req.params;
   await usersService.remove(id);
-  res.status(204).json({ message: 'User has been deleted' });
+  res.status(200).json({ message: 'User has been deleted' });
 });
 
 module.exports = router;

@@ -16,8 +16,8 @@ const update = async (id, task) => {
   let updatedTask;
   DB.tasks = DB.tasks.map((el) => {
     if (el.id === id) {
-      updatedTask = { id, ...task };
-      return task;
+      updatedTask = { ...task, id };
+      return updatedTask;
     }
     return el;
   });
@@ -28,4 +28,25 @@ const remove = async (id) => {
   DB.tasks = DB.tasks.filter((el) => el.id !== id);
 };
 
-module.exports = { getAll, getById, create, update, remove };
+const removeByBoardId = (id) => {
+  DB.tasks = DB.tasks.filter((el) => el.boardId !== id);
+};
+
+const unassignUser = async (userId) => {
+  DB.tasks = DB.tasks.map((el) => {
+    if (el.userId === userId) {
+      return { ...el, userId: null };
+    }
+    return el;
+  });
+};
+
+module.exports = {
+  getAll,
+  getById,
+  create,
+  update,
+  remove,
+  unassignUser,
+  removeByBoardId,
+};
