@@ -1,8 +1,10 @@
-const router = require('express').Router();
-const User = require('./user.model');
-const usersService = require('./user.service');
+import { Router } from 'express';
+import usersService from './user.service';
+import { User } from './user.model';
 
-router.route('/').get(async (req, res) => {
+const router = Router();
+
+router.route('/').get(async (_req, res) => {
   const users = await usersService.getAll();
   res.status(200).json(users.map(User.toResponse));
 });
@@ -10,7 +12,10 @@ router.route('/').get(async (req, res) => {
 router.route('/:id').get(async (req, res) => {
   const { id } = req.params;
   const user = await usersService.getById(id);
-  res.status(200).json(User.toResponse(user));
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+  return res.status(200).json(User.toResponse(user));
 });
 
 router.route('/').post(async (req, res) => {
@@ -21,7 +26,10 @@ router.route('/').post(async (req, res) => {
 router.route('/:id').put(async (req, res) => {
   const { id } = req.params;
   const user = await usersService.update(id, req.body);
-  res.status(200).json(User.toResponse(user));
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+  return res.status(200).json(User.toResponse(user));
 });
 
 router.route('/:id').delete(async (req, res) => {
@@ -30,4 +38,4 @@ router.route('/:id').delete(async (req, res) => {
   res.status(200).json({ message: 'User has been deleted' });
 });
 
-module.exports = router;
+export default router;
