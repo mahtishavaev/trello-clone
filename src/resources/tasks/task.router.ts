@@ -1,10 +1,12 @@
-const router = require('express').Router({ mergeParams: true });
-const tasksService = require('./task.service');
+import { Request, Router } from 'express';
+import tasksService from './task.service';
 
-router.route('/').get(async (req, res) => {
+const router = Router({ mergeParams: true });
+
+router.route('/').get(async (req: Request, res) => {
   const { boardId } = req.params;
-  const tasks = await tasksService.getAll(boardId);
-  res.status(200).json(tasks);
+  const tasks = await tasksService.getAll(boardId!);
+  return res.status(200).json(tasks);
 });
 
 router.route('/:id').get(async (req, res) => {
@@ -17,9 +19,9 @@ router.route('/:id').get(async (req, res) => {
   }
 });
 
-router.route('/').post(async (req, res) => {
+router.route('/').post(async (req: Request, res) => {
   const { boardId } = req.params;
-  const task = await tasksService.create(boardId, req.body);
+  const task = await tasksService.create(boardId!, req.body);
   res.status(201).json(task);
 });
 
@@ -32,7 +34,7 @@ router.route('/:id').put(async (req, res) => {
 router.route('/:id').delete(async (req, res) => {
   const { id } = req.params;
   await tasksService.remove(id);
-  res.status(204).json({ message: 'Task has been deleted' });
+  res.status(200).json({ message: 'Task has been deleted' });
 });
 
-module.exports = router;
+export default router;
